@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: myuser      # ← убрал дефис и пробел
+      POSTGRES_PASSWORD: mypassword  # ← убрал дефис
+      POSTGRES_DB: mydatabase    # ← убрал дефис
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network  # добавляем сеть
+
+  web:
+    build: .
+    container_name: fastapi_app_task_manager
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://myuser:mypassword@db:5432/mydatabase
+    depends_on:
+      - db
+    volumes:
+      - .:/code
+    command: python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - app-network  # добавляем сеть
+
+networks:
+  app-network:  # создаем общую сеть
+    driver: bridge
+
+volumes:
+  postgres_data:

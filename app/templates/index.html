@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body { font-family: Arial; margin: 40px; background: #f0f0f0; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+        .task { background: #f9f9f9; margin: 10px 0; padding: 10px; border-radius: 5px; display: flex; justify-content: space-between; }
+        .completed { text-decoration: line-through; color: green; }
+        button { background: #4CAF50; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        .add-task { margin: 20px 0; }
+        input, textarea, select { width: 100%; padding: 8px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Task Manager</h1>
+
+        <div class="add-task">
+            <h3>Add New Task</h3>
+            <form action="/add-task" method="post">
+                <input type="text" name="title" placeholder="Task title" required>
+                <textarea name="description" placeholder="Description"></textarea>
+                <select name="board_id">
+                    {% for board in boards %}
+                    <option value="{{ board.id }}">{{ board.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+
+        <h3>📋 My Tasks</h3>
+        {% for task in tasks %}
+        <div class="task">
+            <div>
+                <strong class="{% if task.status == 'done' %}completed{% endif %}">
+                    {{ task.title }}
+                </strong>
+                <br>
+                <small>{{ task.description }}</small>
+            </div>
+            {% if task.status != 'done' %}
+            <form action="/complete-task/{{ task.id }}" method="post" style="margin:0">
+                <button type="submit">✅ Complete</button>
+            </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
