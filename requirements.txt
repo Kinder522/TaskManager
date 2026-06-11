@@ -6,3 +6,7 @@ psycopg2-binary
 pydantic[email]
 asyncpg
 jinja2
+PyJWT
+passlib[bcrypt]
+bcrypt
+python-multipart

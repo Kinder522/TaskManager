@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><title>Вход</title></head>
+<body>
+    <h2>Вход в TaskManager</h2>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Логин" required><br><br>
+        <input type="password" id="password" placeholder="Пароль" required><br><br>
+        <button type="submit">Войти</button>
+    </form>
+    <p>Еще не зарегистрированы? <a href="/auth/register">Регистрация</a></p>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+
+            const response = await fetch('api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                // Бэкенд сам установил httponly куку в браузер через заголовок ответа.
+                // Нам осталось просто перекинуть юзера на главную страницу!
+                window.location.href = '/';
+            } else {
+                const errorData = await response.json();
+                alert('Ошибка: ' + (errorData.detail || 'Неверный логин или пароль'));
+            }
+        });
+    </script>
+</body>
+</html>
