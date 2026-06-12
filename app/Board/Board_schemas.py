@@ -1,21 +1,18 @@
 from pydantic import BaseModel
-from datetime import datetime
 from typing import Optional
 
 
-class BoardBase(BaseModel):
+class BoardCreate(BaseModel):
     name: str
-    description: Optional[str] = None
+
+class BoardUpdate(BaseModel):
+    name: Optional[str] = None
 
 
-class BoardCreate(BoardBase):
-    owner_id: int
-
-
-class BoardResponse(BoardBase):
+class BoardResponse(BaseModel):
     id: int
+    name: str
     owner_id: int
-    created_at: datetime
 
     class Config:
         from_attributes = True

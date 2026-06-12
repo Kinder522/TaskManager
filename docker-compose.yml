@@ -31,9 +31,29 @@ services:
     networks:
       - app-network  # добавляем сеть
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fastapi_app_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - web
+    networks:
+      - app-network
+
 networks:
   app-network:  # создаем общую сеть
     driver: bridge
 
+
+
 volumes:
   postgres_data:
+

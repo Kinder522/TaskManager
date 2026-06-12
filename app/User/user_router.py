@@ -25,7 +25,7 @@ def login_form(request: Request):
         request=request,
         name="login.html"
     )
-@UserRouter.post("/auth/api/register")
+@UserRouter.post("/api/auth/register")
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     existing_user = get_user_by_username(db, name=user_data.username)
     if existing_user:
@@ -38,7 +38,7 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     return {"status": "User created successfully"}
 
 
-@UserRouter.post("/auth/api/login")
+@UserRouter.post("/api/auth/login")
 def login(response: Response, user_data: UserLogin, db: Session = Depends(get_db)):
     # Ищем юзера в базе
     user = get_user_by_username(db, name=user_data.username)

@@ -56,4 +56,4 @@ def get_current_user(session_token: str | None = Cookie(None), db: Session = Dep
     if user is None:
         raise HTTPException(status_code=401, detail="Пользователь не найден")
 
-    return user
+    return user_id
