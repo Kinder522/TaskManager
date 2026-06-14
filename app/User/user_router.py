@@ -1,30 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException, Response,Request
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app.database.models import User
 from app.User.user_crud import get_user_by_username
 from app.core.security import get_password_hash, verify_password, create_access_token
 from app.User.User_schemas import UserCreate, UserLogin
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+
 
 UserRouter = APIRouter(prefix="", tags=["Auth"])
 
-templates = Jinja2Templates(directory="app/templates")
 
 
-@UserRouter.get("/auth/register", response_class=HTMLResponse)
-def register_form(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="register.html"
-    )
-@UserRouter.get("/auth/login", response_class=HTMLResponse)
-def login_form(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="login.html"
-    )
+
 @UserRouter.post("/api/auth/register")
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     existing_user = get_user_by_username(db, name=user_data.username)

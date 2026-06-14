@@ -127,6 +127,11 @@ function App() {
     e.preventDefault()
     if (!newTaskTitle.trim()) return
     try {
+
+        if (!currentBoard || !currentBoard.id) {
+            console.error("Доска не выбрана");
+            return;
+        }
       const response = await fetch(`/api/boards/${currentBoard.id}/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -11,7 +11,7 @@ class Task(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     status = Column(String,default="todo")
-    priority = Column(Integer,default="medium")
+    priority = Column(String,default="medium")
 
     board = relationship("Board", back_populates="tasks")
     assignee = relationship("User", back_populates="tasks")

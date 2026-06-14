@@ -24,16 +24,13 @@ class TaskBase(BaseModel):
 
 
 class TaskCreate(TaskBase):
-    board_id: int
-    assignee_id: Optional[int] = None
+    title: str
 
 
 class TaskResponse(TaskBase):
     id: int
     board_id: int
     assignee_id: Optional[int]
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         from_attributes = True

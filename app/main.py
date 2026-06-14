@@ -2,8 +2,8 @@ from fastapi import FastAPI, Request, Depends, HTTPException, Form, Cookie, stat
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
-
 from app.Board.board_router import BoardRouter
+from app.Task.task_router import TaskRouter
 from app.core.security import get_current_user
 from app.User.user_router import UserRouter
 from app.database.database import get_db
@@ -25,7 +25,7 @@ app.add_middleware(
 )
 
 templates = Jinja2Templates(directory="app/templates")
-# app.include_router(TaskRouter)
+app.include_router(TaskRouter)
 app.include_router(UserRouter)
 app.include_router(BoardRouter)
 
