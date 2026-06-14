@@ -9,7 +9,7 @@ from app.database.models import Task
 TaskRouter = APIRouter(prefix="", tags=["tasks"])
 
 
-@TaskRouter.get("/api/boards/{board_id}/tasks", response_model=List[TaskResponse], status_code=status.HTTP_201_CREATED)
+@TaskRouter.get("/api/boards/{board_id}/tasks", response_model=List[TaskResponse])
 def get_task(board_id: int, db: Session = Depends(get_db)):
     boards = db.query(Task).filter(Task.board_id == board_id).all()
     return boards

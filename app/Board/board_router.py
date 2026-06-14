@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends,HTTPException
+from fastapi import APIRouter, Depends,HTTPException,status
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
@@ -16,7 +16,7 @@ def get_user_boards(user_id: int = Depends(get_current_user), db: Session = Depe
     return boards
 
 
-@BoardRouter.post("/create", response_model=BoardResponse)
+@BoardRouter.post("/create", response_model=BoardResponse, status_code=status.HTTP_201_CREATED)
 def create_board(board_data: BoardCreate,user_id: int = Depends(get_current_user),  db: Session = Depends(get_db)):
     new_board = Board(name=board_data.name, owner_id=user_id)
     db.add(new_board)
